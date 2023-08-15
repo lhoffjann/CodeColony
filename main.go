@@ -11,10 +11,15 @@ type Creep struct {
 	position [2]int
 }
 
-func (c *Creep) moveUpwards(){
-	fmt.Println(c.position[1])
-	c.position[1] = c.position[1] + 1 
+func (c *Creep) moveXCoordinate(move int){
+	c.position[0] = c.position[0] + move
 }
+
+func (c *Creep) moveYCoordinate(move int){
+	c.position[1] = c.position[1] + move 
+}
+
+
 
 
 func main()  {
@@ -26,9 +31,9 @@ func main()  {
 	} 
 	// this is my game engine
 	for i := 0; i < 10; i++ {
-		creep.moveUpwards()
+		creep.moveXCoordinate(1)
+		creep.moveYCoordinate(-1)
 		fmt.Println(creep.position)
-
 	}
 	
 }
