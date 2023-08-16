@@ -4,7 +4,6 @@ import (
 	"CodeColony/units"
 	"fmt"
 )
-
 // we got a map that is build as a coordinate system.
 
 // we got a main building that can produce creeps
@@ -25,12 +24,7 @@ type EnergySource struct{
 func (e EnergySource) getPosition() [2]int {
 	return e.position
 }
-
 // should the creep also have a orientation? thatwould mean it can move only forward and has to turn.
-
-
-
-
 func main()  {
 	energySource := EnergySource{
 		id: 1,
@@ -39,9 +33,8 @@ func main()  {
 	c := creep.NewCreep([2]int{0,0})	
 	// this is my game engine
 	fmt.Println(c.GetName())
-	for i := 0; i < 100; i++ {
+	for i := 0; i < 10; i++ {
 		fmt.Println(c.MoveTowardsPoint(energySource.getPosition()))
 		fmt.Println(c.GetPosition())
 	}
-	
 }

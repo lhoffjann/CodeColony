@@ -11,8 +11,9 @@ import (
 	}
 
 	func NewCreep(position [2]int) creep{
+	t := time.Now()
 	c := creep {
-		name: fmt.Sprintf( "creep %d", time.Now().Minute()),
+		name: fmt.Sprintf( "creep %02d%02d", t.Minute(), t.Second()),
 		position: position,
 		}
 	return c
