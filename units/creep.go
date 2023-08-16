@@ -5,9 +5,45 @@ import (
 	"math"
 	"time"
 )
+	
+	type Direction int
+	const (
+	UpLeft Direction = iota
+	Up 
+	UpRight 
+	Right 
+	Left 
+	DownLeft
+	Down 
+	DownRight
+	)
+	func (d Direction) Coordinates() [2]int {
+		switch d {
+			case UpLeft:
+				return [2]int{-1,1} 
+			case Up: 
+				return [2]int{1,0} 
+			case UpRight:
+				return [2]int{1,1}
+			case Left:
+				return [2]int{-1,0}
+			case Right:
+				return [2]int{1,0}
+			case DownLeft:
+				return [2]int{-1,-1}
+			case Down:
+				return [2]int{0,-1}
+			case DownRight:
+				return [2]int{1,-1}
+		}
+		return [2]int{0,0}
+	}
+
 	type creep struct {
 		name   string
 		position [2]int
+		maxCapacity int
+		usedCapacity int
 	}
 
 	func NewCreep(position [2]int) creep{
@@ -15,16 +51,16 @@ import (
 	c := creep {
 		name: fmt.Sprintf( "creep %02d%02d", t.Minute(), t.Second()),
 		position: position,
+		maxCapacity: 100,
+		usedCapacity: 0,
 		}
 	return c
 	
 	}
-	func (c *creep) moveXCoordinate(move int){
-		c.position[0] = c.position[0] + move
-	}
 
-	func (c *creep) moveYCoordinate(move int){
-		c.position[1] = c.position[1] + move 
+	func (c *creep) Move(direction Direction) {
+		c.position[0] = c.position[0] + direction.Coordinates()[0]
+		c.position[1] = c.position[1] + direction.Coordinates()[1]
 	}
 	
 	func (c creep) GetName() string{
@@ -34,20 +70,15 @@ import (
 	func (c creep) GetPosition() [2]int{
 		return c.position
 	}
-	//func (c Creep) checkIfNextToEnergySource(e []EnergySource) bool {
-	//for _, v := range e {
-	//		
-	//	}	
-	//}
 
-	func (c *creep) MoveTowardsPoint(destination [2]int) bool{
+	func (c *creep) MoveTo(point [2]int){
 	// make it so that the creep will not move once it is directly infront of the source
-		ex,ey := destination[0], destination[1]
+		ex,ey := point[0], point[1]
 		cx,cy := c.position[0], c.position[1]
 		dx := ex - cx
 		dy := ey - cy
 		if math.Abs(float64(dx)) == 1 && math.Abs(float64(dy)) == 1 {
-			return true
+			//return true
 		}
 		move := func (dist int) int {
 			if dist >= 0 {
@@ -55,11 +86,13 @@ import (
 			}
 			return -1
 		}
-
+		move(1.0)
+		c.Move(Up)
+		
 		if math.Abs(float64(dx)) > math.Abs(float64(dy)) { // there is probably some edgecase here.
-			c.moveXCoordinate(move(dx))	
+			// c.moveXCoordinate(move(dx))	
 		} else {
-			c.moveYCoordinate(move(dy))
+			//	c.moveYCoordinate(move(dy))
 	}
-	return false
+//	return false
 }
