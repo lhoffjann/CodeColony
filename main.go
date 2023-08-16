@@ -5,6 +5,14 @@ import "fmt"
 // we got a map that is build as a coordinate system.
 // we got a main building that can produce creeps
 // we also got creeps that can move, collect and carry
+type EnergySource struct{
+	id int
+	position [2]int
+}
+func (e EnergySource) getPosition() [2]int {
+	return e.position
+}
+
 
 type Creep struct {
 	id   int
