@@ -34,6 +34,7 @@ func main()  {
 	// this is my game engine
 	fmt.Println(c.GetName())
 	for i := 0; i < 10; i++ {
+		c.Move(creep.UpRight)
 		c.MoveTo(energySource.getPosition())
 		fmt.Println(c.GetPosition())
 	}
