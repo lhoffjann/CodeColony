@@ -5,6 +5,12 @@ func heuristic (a [2]float64, b [2]float64) float64 {
 	return math.Abs(a[0]-b[0])+math.Abs(a[1]-b[1])
 }
 
+
+
+func findPath(start [2]int, goal [2]int) [][2]int {
+	return [][make([][2]int,0) )	
+}
+/*
 frontier = PriorityQueue()
 frontier.put(start, 0)
 came_from = dict()
@@ -25,3 +31,4 @@ while not frontier.empty():
          priority = new_cost + heuristic(goal, next)
          frontier.put(next, priority)
          came_from[next] = current
+*/
