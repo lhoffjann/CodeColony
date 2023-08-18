@@ -1,8 +1,9 @@
 package utils
-def heuristic(a, b):
-   # Manhattan distance on a square grid
-   return abs(a.x - b.x) + abs(a.y - b.y)
 
+import "math"
+func heuristic (a [2]float64, b [2]float64) float64 {
+	return math.Abs(a[0]-b[0])+math.Abs(a[1]-b[1])
+}
 
 frontier = PriorityQueue()
 frontier.put(start, 0)
