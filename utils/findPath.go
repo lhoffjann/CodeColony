@@ -8,8 +8,25 @@ func heuristic (a [2]float64, b [2]float64) float64 {
 
 
 func findPath(start [2]int, goal [2]int) [][2]int {
-	return [][make([][2]int,0) )	
+	frontier := make(PriorityQueue,1)
+	frontier.Push(
+		Item{
+			Value: start,
+			Priority: 1,
+			Index: 0,
+	})
+	cameFrom := map[[2]int][2]int{start: [2]int{}}
+	costSoFar := map[[2]int]int{start:0}
+	for frontier.Len()!= 0 {
+		current := frontier.Pop()
+		if current.Value == goal{
+			break
+		}
+
+	}
 }
+
+
 /*
 frontier = PriorityQueue()
 frontier.put(start, 0)
