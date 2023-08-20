@@ -5,8 +5,8 @@ import (
 )
 // shamelessly copied from the golang docs
 type Item struct {
-	Value  [2]int   
-	Priority int   
+	Value  Position   
+	Priority float64   
 	Index int 
 }
 
@@ -41,7 +41,7 @@ func (pq *PriorityQueue) Pop() any {
 	return item
 }
 
-func (pq *PriorityQueue) update(item *Item, value [2]int, priority int) {
+func (pq *PriorityQueue) update(item *Item, value Position, priority float64) {
 	item.Value = value
 	item.Priority = priority
 	heap.Fix(pq, item.Index)

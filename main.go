@@ -34,18 +34,20 @@ func main()  {
 	}
 	c := internal.NewCreep(internal.Position{X:0, Y:0,},  world)	
 	fmt.Println(c.GetName())
+	fmt.Println(world.ReturnFreeNeighbors(internal.Position{X:8,Y:6}))
 	printBoard(world,c)
-	for i := 0; i < 10; i++ {
+	path := c.GetPathTo(internal.Position{X:9,Y:9})
+	for _, p := range path {
 		fmt.Scanln()
-		c.Move(internal.UpRight)
+
 		fmt.Println(c.GetPosition())
 		cmd := exec.Command("clear") //Linux example, its tested
 		cmd.Stdout = os.Stdout
 		cmd.Run()
+		c.SetPosition(p)
 		printBoard(world, c)
 	}
 }
-
 
 func printBoard(w internal.World, c internal.Creep){
 cells := make([][]int, w.Dimensions[0]+1)

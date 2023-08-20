@@ -4,31 +4,56 @@ import (
 	"container/heap"
 	"math"
 )
-func heuristic (a [2]float64, b [2]float64) float64 {
-	return math.Abs(a[0]-b[0])+math.Abs(a[1]-b[1])
+func heuristic (a Position, b Position) float64 {
+	return math.Abs(float64(a.X)-float64(b.X))+math.Abs(float64(a.Y)-float64(b.Y))
 }
 
 
 
-func findPath(start [2]int, goal [2]int) [][2]int {
+func findPath(start Position, goal Position, w World) []Position {
 	frontier := make(PriorityQueue,1)
-	frontier.Push(
-		Item{
+	frontier[0] = &Item{
 			Value: start,
-			Priority: 1,
+			Priority: 1.0,
 			Index: 0,
-	})
+	}
 	heap.Init(&frontier)
-	// cameFrom := map[[2]int][2]int{start: [2]int{}}
-	// costSoFar := map[[2]int]int{start:0}
+	emptyPosition := Position{}
+	cameFrom := map[Position]Position{start: emptyPosition}
+	costSoFar := map[Position]float64{start:0}
 	for frontier.Len()!= 0 {
 		current := heap.Pop(&frontier).(*Item)
 		if current.Value == goal{
 			break
-		}
 
+		}
+		for _, next := range w.ReturnFreeNeighbors(current.Value) {
+			newCost := costSoFar[current.Value] + 1
+			_, ok := costSoFar[next]
+			if !ok || newCost < costSoFar[next]{
+				costSoFar[next] = newCost
+				priority := newCost + heuristic(goal, next)
+				item := &Item{
+					Value:    next,
+					Priority: priority,
+				}
+				heap.Push(&frontier, item)
+				cameFrom[next] = current.Value		
+			}
+		}
 	}
-	return [][2]int{}
+	current := goal
+	var path []Position
+	for current != start{
+		path = append(path, current)
+
+		current = cameFrom[current]
+	}
+	//for i, j := 0, len(path)-1; i < j; i, j = i+1, j-1 {
+	//	path[i], path[j] = path[j], path[i]
+	//}
+	
+	return path
 }
 
 

@@ -1,6 +1,7 @@
 package internal
 
 
+
 type Position struct {
 	X int
 	Y int
@@ -53,10 +54,11 @@ func (w World) PositionOccupied (position Position) bool{
 func (w World) ReturnNeighbors(position Position) []Position{
 	var neighbors []Position   
 	for i := UpLeft; i <= DownRight; i++ {
-		neighbor := Position{X: position.X + i.Coordinates()[0], Y:position.X + i.Coordinates()[1],}
+		neighbor := Position{X: position.X + i.Coordinates()[0], Y:position.Y + i.Coordinates()[1],}
 		if w.PositionExists(neighbor) {
 			neighbors = append(neighbors, neighbor)
 		}
+
 	}
 	return neighbors
 }
