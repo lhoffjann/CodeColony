@@ -1,5 +1,6 @@
 package internal
 
+
 type Position struct {
 	X int
 	Y int
@@ -9,8 +10,10 @@ func (p Position) AreEqual(position Position) bool{
 }
 
 func (p *Position) UpdatePosition (d Direction){
-	p.X = p.X + d.Coordinates()[0]
-	p.Y = p.Y + d.Coordinates()[1]
+	x := p.X + d.Coordinates()[0]
+	y := p.Y + d.Coordinates()[1]
+	p.X = x 	
+	p.Y = y
 }
 
 type Obstacle struct {
@@ -25,25 +28,25 @@ type World struct {
 	Dimensions [2]int
 	Obstacles []Obstacle
 	EnergySources []EnergySource
-	Creeps [] Creep
 }
+
 func (w World) PositionExists (position Position) bool {
 	return  !(position.X < 0 || position.X > w.Dimensions[0] || position.Y < 0 || position.Y > w.Dimensions[1])
 }
 
 func (w World) PositionOccupied (position Position) bool{
-	var isOccupied bool = false
+
 	for _, o := range w.Obstacles {
-		isOccupied = o.Position.AreEqual(position) 
+		if o.Position.AreEqual(position) {
+			return o.Position.AreEqual(position)
+		}  
 	}
 	for _, es := range w.EnergySources {
-		isOccupied = es.Position.AreEqual(position)	
+		if es.Position.AreEqual(position) {
+			return es.Position.AreEqual(position)
+		}  
 	}
-	for _, c := range w.Creeps {
-		isOccupied = c.position.AreEqual(position)
-		
-	}
-	return isOccupied
+	return false
 }
 
 func (w World) ReturnNeighbors(position Position) []Position{

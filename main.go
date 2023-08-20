@@ -29,13 +29,10 @@ func main()  {
 		Obstacles: [] internal.Obstacle{obstacle},
 		
 	}
-	c := internal.NewCreep(internal.Position{X:1, Y:1,})	
-	// this is my game engine
+	c := internal.NewCreep(internal.Position{X:1, Y:1,},  world)	
 	fmt.Println(c.GetName())
 	for i := 0; i < 10; i++ {
 		c.Move(internal.UpRight)
-		fmt.Println(world.ReturnFreeNeighbors(c.GetPosition()))
-		c.MoveTo(energySource.Position)
 		fmt.Println(c.GetPosition())
 	}
 }

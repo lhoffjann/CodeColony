@@ -12,22 +12,32 @@ import (
 		position Position
 		maxCapacity int
 		usedCapacity int
-	}
+		world World	
+}
 
-	func NewCreep(position Position) Creep{
+	func NewCreep(position Position, world World) Creep{
 	t := time.Now()
 	c := Creep {
 		name: fmt.Sprintf( "creep %02d%02d", t.Minute(), t.Second()),
 		position: position,
 		maxCapacity: 100,
 		usedCapacity: 0,
+		world: world,
+		
 		}
 	return c
 	
 	}
 
 	func (c *Creep) Move(direction Direction) {
-		 c.position.UpdatePosition(direction)
+	newPosition:= Position{X: c.position.X + direction.Coordinates()[0], Y:c.position.Y + direction.Coordinates()[1]}
+			
+		fmt.Println(!c.world.PositionOccupied(newPosition))
+		fmt.Println(c.world.PositionExists(newPosition))
+		fmt.Println(c.world.PositionExists(newPosition) && !c.world.PositionOccupied(newPosition))
+		if c.world.PositionExists(newPosition) && !c.world.PositionOccupied(newPosition) {
+			c.position.UpdatePosition(direction)
+		}
 	}
 	
 	func (c Creep) GetName() string{
