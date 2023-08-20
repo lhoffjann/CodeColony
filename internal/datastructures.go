@@ -4,6 +4,9 @@ type Position struct {
 	X int
 	Y int
 }
+func (p Position) AreEqual(position Position) bool{
+	return p.X == position.X && p.Y == position.Y	
+}
 
 func (p *Position) UpdatePosition (d Direction){
 	p.X = p.X + d.Coordinates()[0]
@@ -24,20 +27,46 @@ type World struct {
 	EnergySources []EnergySource
 	Creeps [] Creep
 }
-func (w World) checkIfPositionExists(position Position) bool {
+func (w World) PositionExists (position Position) bool {
 	return  !(position.X < 0 || position.X > w.Dimensions[0] || position.Y < 0 || position.Y > w.Dimensions[1])
 }
 
-func (w World) returnNeighbors(position Position) []Position{
+func (w World) PositionOccupied (position Position) bool{
+	var isOccupied bool = false
+	for _, o := range w.Obstacles {
+		isOccupied = o.Position.AreEqual(position) 
+	}
+	for _, es := range w.EnergySources {
+		isOccupied = es.Position.AreEqual(position)	
+	}
+	for _, c := range w.Creeps {
+		isOccupied = c.position.AreEqual(position)
+		
+	}
+	return isOccupied
+}
+
+func (w World) ReturnNeighbors(position Position) []Position{
 	var neighbors []Position   
 	for i := UpLeft; i <= DownRight; i++ {
 		neighbor := Position{X: position.X + i.Coordinates()[0], Y:position.X + i.Coordinates()[1],}
-		if w.checkIfPositionExists(neighbor) {
+		if w.PositionExists(neighbor) {
 			neighbors = append(neighbors, neighbor)
 		}
 	}
 	return neighbors
-} 
+}
+
+func (w World) ReturnFreeNeighbors(position Position) []Position {
+	var freeNeighbors []Position
+	neighbors := w.ReturnNeighbors(position)
+	for _ , p := range neighbors {
+		if !w.PositionOccupied(p) {
+			freeNeighbors = append(freeNeighbors, p)
+		}
+	}
+	return freeNeighbors
+}
 
 type Direction int
 const (

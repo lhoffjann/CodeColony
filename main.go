@@ -17,13 +17,24 @@ import (
 
 func main()  {
 	energySource := internal.EnergySource{
-		Position: internal.Position{X: 10,Y: 32,},
+		Position: internal.Position{X: 10,Y: 10,},
+	}
+	obstacle:= internal.Obstacle{
+		Position: internal.Position{X:5, Y: 5},
+	}
+
+	world := internal.World{
+		Dimensions: [2]int{10, 10},
+		EnergySources: []internal.EnergySource{energySource},
+		Obstacles: [] internal.Obstacle{obstacle},
+		
 	}
 	c := internal.NewCreep(internal.Position{X:1, Y:1,})	
 	// this is my game engine
 	fmt.Println(c.GetName())
 	for i := 0; i < 10; i++ {
 		c.Move(internal.UpRight)
+		fmt.Println(world.ReturnFreeNeighbors(c.GetPosition()))
 		c.MoveTo(energySource.Position)
 		fmt.Println(c.GetPosition())
 	}
