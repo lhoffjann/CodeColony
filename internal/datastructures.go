@@ -30,6 +30,7 @@ type World struct {
 	EnergySources []EnergySource
 }
 
+
 func (w World) PositionExists (position Position) bool {
 	return  !(position.X < 0 || position.X > w.Dimensions[0] || position.Y < 0 || position.Y > w.Dimensions[1])
 }
