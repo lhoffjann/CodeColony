@@ -28,7 +28,15 @@ func (w World) checkIfPositionExists(position Position) bool {
 	return  !(position.X < 0 || position.X > w.Dimensions[0] || position.Y < 0 || position.Y > w.Dimensions[1])
 }
 
-func (w World) returnNeighbors(){
+func (w World) returnNeighbors(position Position) []Position{
+	var neighbors []Position   
+	for i := UpLeft; i <= DownRight; i++ {
+		neighbor := Position{X: position.X + i.Coordinates()[0], Y:position.X + i.Coordinates()[1],}
+		if w.checkIfPositionExists(neighbor) {
+			neighbors = append(neighbors, neighbor)
+		}
+	}
+	return neighbors
 } 
 
 type Direction int
