@@ -1,5 +1,6 @@
 package utils
 
+import "CodeColony/units"
 type Position struct {
 	X int
 	Y int
@@ -20,14 +21,16 @@ type EnergySource struct{
 
 type World struct {
 	Dimensions [2]int
-	Obstacles [][]int
+	Obstacles []Obstacle
 	EnergySources []EnergySource
+	Creeps [] units.Creep
 }
-func (w World) checkIfPositionExists(position Position){
-
+func (w World) checkIfPositionExists(position Position) bool {
+	return  !(position.X < 0 || position.X > w.Dimensions[0] || position.Y < 0 || position.Y > w.Dimensions[1])
 }
 
-
+func (w World) returnNeighbors(){
+} 
 
 type Direction int
 const (

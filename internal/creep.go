@@ -8,16 +8,16 @@ import (
 )
 	
 
-	type creep struct {
+	type Creep struct {
 		name   string
 		position utils.Position
 		maxCapacity int
 		usedCapacity int
 	}
 
-	func NewCreep(position utils.Position) creep{
+	func NewCreep(position utils.Position) Creep{
 	t := time.Now()
-	c := creep {
+	c := Creep {
 		name: fmt.Sprintf( "creep %02d%02d", t.Minute(), t.Second()),
 		position: position,
 		maxCapacity: 100,
@@ -27,19 +27,19 @@ import (
 	
 	}
 
-	func (c *creep) Move(direction utils.Direction) {
+	func (c *Creep) Move(direction utils.Direction) {
 		 c.position.UpdatePosition(direction)
 	}
 	
-	func (c creep) GetName() string{
+	func (c Creep) GetName() string{
 		return c.name
 	}
 	
-	func (c creep) GetPosition() utils.Position{
+	func (c Creep) GetPosition() utils.Position{
 		return c.position
 	}
 
-	func (c *creep) MoveTo(point utils.Position){
+	func (c *Creep) MoveTo(point utils.Position){
 	// make it so that the creep will noutils.Position once it is directly infront of the source
 		dx := point.X - c.position.X
 		dy := point.Y - c.position.Y
