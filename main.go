@@ -1,8 +1,7 @@
 package main
 
 import (
-	"CodeColony/units"
-	"CodeColony/utils"
+	"CodeColony/internal"
 	"fmt"
 )
 
@@ -17,14 +16,14 @@ import (
 
 
 func main()  {
-	energySource := utils.EnergySource{
-		Position: utils.Position{X: 10,Y: 32,},
+	energySource := internal.EnergySource{
+		Position: internal.Position{X: 10,Y: 32,},
 	}
-	c := creep.NewCreep(utils.Position{X:1, Y:1,})	
+	c := internal.NewCreep(internal.Position{X:1, Y:1,})	
 	// this is my game engine
 	fmt.Println(c.GetName())
 	for i := 0; i < 10; i++ {
-		c.Move(utils.UpRight)
+		c.Move(internal.UpRight)
 		c.MoveTo(energySource.Position)
 		fmt.Println(c.GetPosition())
 	}

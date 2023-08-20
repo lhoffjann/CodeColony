@@ -1,6 +1,5 @@
-package utils
+package internal
 
-import "CodeColony/units"
 type Position struct {
 	X int
 	Y int
@@ -23,7 +22,7 @@ type World struct {
 	Dimensions [2]int
 	Obstacles []Obstacle
 	EnergySources []EnergySource
-	Creeps [] units.Creep
+	Creeps [] Creep
 }
 func (w World) checkIfPositionExists(position Position) bool {
 	return  !(position.X < 0 || position.X > w.Dimensions[0] || position.Y < 0 || position.Y > w.Dimensions[1])

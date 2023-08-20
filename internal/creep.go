@@ -1,7 +1,6 @@
-package creep
+package internal 
 
 import (
-	"CodeColony/utils"
 	"fmt"
 	"math"
 	"time"
@@ -10,12 +9,12 @@ import (
 
 	type Creep struct {
 		name   string
-		position utils.Position
+		position Position
 		maxCapacity int
 		usedCapacity int
 	}
 
-	func NewCreep(position utils.Position) Creep{
+	func NewCreep(position Position) Creep{
 	t := time.Now()
 	c := Creep {
 		name: fmt.Sprintf( "creep %02d%02d", t.Minute(), t.Second()),
@@ -27,7 +26,7 @@ import (
 	
 	}
 
-	func (c *Creep) Move(direction utils.Direction) {
+	func (c *Creep) Move(direction Direction) {
 		 c.position.UpdatePosition(direction)
 	}
 	
@@ -35,11 +34,11 @@ import (
 		return c.name
 	}
 	
-	func (c Creep) GetPosition() utils.Position{
+	func (c Creep) GetPosition() Position{
 		return c.position
 	}
 
-	func (c *Creep) MoveTo(point utils.Position){
+	func (c *Creep) MoveTo(point Position){
 	// make it so that the creep will noutils.Position once it is directly infront of the source
 		dx := point.X - c.position.X
 		dy := point.Y - c.position.Y
@@ -53,7 +52,7 @@ import (
 			return -1
 		}
 		move(1.0)
-		c.Move(utils.Up)
+		c.Move(Up)
 		
 		if math.Abs(float64(dx)) > math.Abs(float64(dy)) { // there is probably some edgecase here.
 			// c.moveXCoordinate(move(dx))	
