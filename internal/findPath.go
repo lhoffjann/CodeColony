@@ -2,10 +2,11 @@ package internal
 
 import (
 	"container/heap"
+	"fmt"
 	"math"
 )
 func heuristic (a Position, b Position) float64 {
-	return math.Abs(float64(a.X)-float64(b.X))+math.Abs(float64(a.Y)-float64(b.Y))
+	return (math.Abs(float64(a.X))-math.Abs(float64(b.X))) + (math.Abs(float64(a.Y))-math.Abs(float64(b.Y)))
 }
 
 
@@ -28,11 +29,16 @@ func findPath(start Position, goal Position, w World) []Position {
 
 		}
 		for _, next := range w.ReturnFreeNeighbors(current.Value) {
-			newCost := costSoFar[current.Value] + 1
+
+			newCost := costSoFar[current.Value]+1.0
+				
 			_, ok := costSoFar[next]
 			if !ok || newCost < costSoFar[next]{
+				fmt.Printf("%d: newCost %f, oldCost %f \n", next, newCost, costSoFar[next])
 				costSoFar[next] = newCost
+
 				priority := newCost + heuristic(goal, next)
+				fmt.Printf("The new Priority is %f", priority)
 				item := &Item{
 					Value:    next,
 					Priority: priority,
@@ -46,13 +52,9 @@ func findPath(start Position, goal Position, w World) []Position {
 	var path []Position
 	for current != start{
 		path = append(path, current)
-
 		current = cameFrom[current]
 	}
-	//for i, j := 0, len(path)-1; i < j; i, j = i+1, j-1 {
-	//	path[i], path[j] = path[j], path[i]
-	//}
-	
+	fmt.Println(path)
 	return path
 }
 

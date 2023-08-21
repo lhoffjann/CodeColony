@@ -25,11 +25,20 @@ func main()  {
 	obstacle:= internal.Obstacle{
 		Position: internal.Position{X:5, Y: 5},
 	}
+	obstacle1 := internal.Obstacle{
+		Position: internal.Position{X:0, Y: 10},
+	}
+	obstacle2:= internal.Obstacle{
+		Position: internal.Position{X:0, Y: 1},
+	}
+	obstacle3:= internal.Obstacle{
+		Position: internal.Position{X:1, Y: 1},
+	}
 
 	world := internal.World{
 		Dimensions: [2]int{10, 10},
 		EnergySources: []internal.EnergySource{energySource},
-		Obstacles: [] internal.Obstacle{obstacle},
+		Obstacles: [] internal.Obstacle{obstacle, obstacle1, obstacle2,obstacle3},
 		
 	}
 	c := internal.NewCreep(internal.Position{X:0, Y:0,},  world)	
@@ -37,6 +46,7 @@ func main()  {
 	fmt.Println(world.ReturnFreeNeighbors(internal.Position{X:8,Y:6}))
 	printBoard(world,c)
 	path := c.GetPathTo(internal.Position{X:9,Y:9})
+	fmt.Println(path)
 	for _, p := range path {
 		fmt.Scanln()
 
