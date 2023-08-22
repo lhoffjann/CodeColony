@@ -1,7 +1,5 @@
 package internal
 
-
-
 type Position struct {
 	X int
 	Y int
@@ -17,13 +15,6 @@ func (p *Position) UpdatePosition (d Direction){
 	p.Y = y
 }
 
-type Obstacle struct {
-	Position Position
-}
-
-type EnergySource struct{
-	Position Position
-}
 
 type World struct {
 	Dimensions [2]int
