@@ -13,9 +13,40 @@ type Game struct {
 	homeBase HomeBase
 }
 
-func NewGame() Game{
-	g:= Game{}
+func NewGame(x int, y int) Game{
+	energySource := EnergySource{
+		Position: Position{X: 10,Y: 10,},
+	}
+	obstacle:= Obstacle{
+		Position: Position{X:5, Y: 5},
+	}
+	obstacle1 := Obstacle{
+		Position: Position{X:0, Y: 10},
+	}
+	obstacle2:= Obstacle{
+		Position: Position{X:0, Y: 1},
+	}
+	obstacle3:= Obstacle{
+		Position: Position{X:1, Y: 1},
+	}
+
+	energySources:=[]EnergySource{energySource}
+	obstacles:= []Obstacle{obstacle, obstacle1, obstacle2,obstacle3}
+	world := World{
+		Dimensions: [2]int{x, y},
+		EnergySources: energySources,
+		Obstacles: obstacles,
+	}
+	c := NewCreep(Position{X:0, Y:0,},  world)
+	g:= Game{
+		world: world,
+		obstacle: obstacles,
+		creeps: []Creep{c},
+	}
 	return g
+}
+func(g Game) tick(){
+
 }
 
 func(g Game) display() {

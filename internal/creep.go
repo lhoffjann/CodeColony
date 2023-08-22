@@ -5,9 +5,16 @@ import (
 	"time"
 )
 	
-
+type State int8
+const (
+	idle = 1
+	moving = 2
+	collecting = 3
+	storing = 4
+)
 	type Creep struct {
 		name   string
+		state State
 		position Position
 		maxCapacity int
 		usedCapacity int
@@ -18,6 +25,7 @@ import (
 	t := time.Now()
 	c := Creep {
 		name: fmt.Sprintf( "creep %02d%02d", t.Minute(), t.Second()),
+		state: idle,	
 		position: position,
 		maxCapacity: 100,
 		usedCapacity: 0,
