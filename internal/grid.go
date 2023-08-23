@@ -77,6 +77,18 @@ const (
 	DownRight
 	)
 
+//TODO: Have to decide which of both enum implementation i like more
+var Directions = map[Direction][2]int {
+	UpLeft:  [2]int{-1,1},
+	Up: [2]int{1,0},
+	UpRight: [2]int{1,1},
+	Left: [2]int{-1,0},
+	Right: [2]int{1,0},
+	DownLeft: [2]int{-1,-1},
+	Down: [2]int{0,-1},
+	DownRight:[2]int{1,-1},
+	}
+
 func (d Direction) Coordinates() [2]int {
 	switch d {
 		case UpLeft:

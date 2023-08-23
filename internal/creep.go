@@ -18,6 +18,7 @@ const (
 		position Position
 		maxCapacity int
 		usedCapacity int
+		memory []func()
 		world World	
 }
 
@@ -40,13 +41,11 @@ const (
 	}
 
 	func (c *Creep) Move(direction Direction) {
-	newPosition:= Position{X: c.position.X + direction.Coordinates()[0], Y:c.position.Y + direction.Coordinates()[1]}
-			
-		fmt.Println(!c.world.PositionOccupied(newPosition))
-		fmt.Println(c.world.PositionExists(newPosition))
-		fmt.Println(c.world.PositionExists(newPosition) && !c.world.PositionOccupied(newPosition))
+	p := c.position
+	d := direction.Coordinates()
+	newPosition:= Position{X: p.X + d[0], Y:p.Y + d[1]}
 		if c.world.PositionExists(newPosition) && !c.world.PositionOccupied(newPosition) {
-			c.position.UpdatePosition(direction)
+			p.UpdatePosition(direction)
 		}
 	}
 	
@@ -58,17 +57,22 @@ const (
 		return c.position
 	}
 	func(c Creep) GetPathTo(position Position) []Position{
-			path:= findPath(c.position, position, c.world)
-		for i, j := 0, len(path)-1; i < j; i, j = i+1, j-1 {
-			path[i], path[j] = path[j], path[i]
-		}
-		return path
+		return findPath(c.position, position, c.world)
 	}
-
-	func (c *Creep) MoveTo(point Position){
-		path:= findPath(c.position, point, c.world)
-		for i, j := 0, len(path)-1; i < j; i, j = i+1, j-1 {
-			path[i], path[j] = path[j], path[i]
+	func (c *Creep) MoveToStructure(structure Structure){
+		path := c.GetPathTo(structure.returnPostion())
+		var actionList []func()
+		for i, v := range path {
+			if i == 0 {
+				fmt.Println(c.position)
+				fmt.Println(v)
+				x,y :=c.position.X - v.X, c.position.Y - v.Y
+				
+			} 
+			
 		}
-		fmt.Println(path)
-}
+	} 
+	
+	func (c *Creep) MoveToPoint(point Position){
+		//path:= findPath(c.position, point, c.world)
+	}

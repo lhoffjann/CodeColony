@@ -54,7 +54,9 @@ func findPath(start Position, goal Position, w World) []Position {
 		path = append(path, current)
 		current = cameFrom[current]
 	}
-	fmt.Println(path)
+	for i, j := 0, len(path)-1; i < j; i, j = i+1, j-1 {
+			path[i], path[j] = path[j], path[i]
+		}
 	return path
 }
 
