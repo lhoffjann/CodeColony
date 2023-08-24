@@ -2,18 +2,20 @@ package internal
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 	"unicode/utf8"
 )
 
 type Game struct {
 	world World
-	creeps []Creep
+	creeps *Creep
 	obstacle []Obstacle
 	EnergySource []EnergySource
 	homeBase HomeBase
 }
 
-func NewGame(x int, y int) Game{
+func NewGame(x int, y int) *Game{
 	energySource := EnergySource{
 		Position: Position{X: 10,Y: 10,},
 	}
@@ -38,20 +40,30 @@ func NewGame(x int, y int) Game{
 		Obstacles: obstacles,
 	}
 	c := NewCreep(Position{X:0, Y:0,},  world)
-	g:= Game{
+	g:= &Game{
 		world: world,
 		obstacle: obstacles,
-		creeps: []Creep{c},
+		creeps: c,
 	}
 	return g
 }
-func(g Game) tick(){
-
+func(g *Game) Tick(){
+	creep:= g.creeps
+	creep.MoveToStructure(Position{9,9})
+	g.display()
+	for i := 0; i < 20; i++ {
+		fmt.Scanln()
+		cmd := exec.Command("clear") //Linux example, its tested
+		cmd.Stdout = os.Stdout
+		cmd.Run()	
+		creep.executeTaskInMemory()
+		g.display()
+	}
 }
 
-func(g Game) display() {
+func(g *Game) display() {
 	world:= g.world
-	c:= g.creeps[0]
+	c:= g.creeps
 	cells := make([][]int, world.Dimensions[0]+1)
     for i := range cells {
         cells[i] = make([]int, world.Dimensions[1]+1)
