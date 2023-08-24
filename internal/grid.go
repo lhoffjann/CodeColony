@@ -1,5 +1,8 @@
 package internal
 
+import ("fmt"
+	"errors")
+
 type Position struct {
 	X int
 	Y int
@@ -14,7 +17,16 @@ func (p *Position) UpdatePosition (d Direction){
 	p.X = x 	
 	p.Y = y
 }
-
+func getDirection(from Position, to Position) (Direction, error) {
+		d := [2]int{to.X - from.X, to.Y - from.Y}
+		for key, value := range Directions{
+			if value == d {
+				fmt.Printf(" from:%d to: %d = %d\n", from, to, value)
+				return key, nil
+			}
+		}
+		return -1, errors.New("That seems to be a invalid move")
+	}
 
 type World struct {
 	Dimensions [2]int

@@ -39,7 +39,7 @@ func NewGame(x int, y int) *Game{
 		EnergySources: energySources,
 		Obstacles: obstacles,
 	}
-	c := NewCreep(Position{X:0, Y:0,},  world)
+	c := NewCreep(&Position{X:0, Y:0,},  world)
 	g:= &Game{
 		world: world,
 		obstacle: obstacles,
@@ -51,7 +51,7 @@ func(g *Game) Tick(){
 	creep:= g.creeps
 	creep.MoveToStructure(Position{9,9})
 	g.display()
-	for i := 0; i < 20; i++ {
+	for i := 0; i < 100; i++ {
 		fmt.Scanln()
 		cmd := exec.Command("clear") //Linux example, its tested
 		cmd.Stdout = os.Stdout
