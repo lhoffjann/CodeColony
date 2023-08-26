@@ -49,7 +49,7 @@ func NewGame(x int, y int) *Game{
 }
 func(g *Game) Tick(){
 	creep:= g.creeps
-	creep.MoveToStructure(Position{9,9})
+	creep.MoveToStructure(Position{10,9})
 	g.display()
 	for i := 0; i < 100; i++ {
 		fmt.Scanln()
@@ -57,6 +57,7 @@ func(g *Game) Tick(){
 		cmd.Stdout = os.Stdout
 		cmd.Run()	
 		creep.executeTaskInMemory()
+		fmt.Printf("This is my current Postion %d\n",creep.position)
 		g.display()
 	}
 }

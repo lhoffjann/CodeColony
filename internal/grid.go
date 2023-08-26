@@ -1,6 +1,6 @@
 package internal
 
-import ("fmt"
+import (//"fmt"
 	"errors")
 
 type Position struct {
@@ -21,7 +21,7 @@ func getDirection(from Position, to Position) (Direction, error) {
 		d := [2]int{to.X - from.X, to.Y - from.Y}
 		for key, value := range Directions{
 			if value == d {
-				fmt.Printf(" from:%d to: %d = %d\n", from, to, value)
+				//fmt.Printf(" from:%d to: %d = %d\n", from, to, value)
 				return key, nil
 			}
 		}
