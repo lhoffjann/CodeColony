@@ -21,7 +21,6 @@ func getDirection(from Position, to Position) (Direction, error) {
 		d := [2]int{to.X - from.X, to.Y - from.Y}
 		for key, value := range Directions{
 			if value == d {
-				//fmt.Printf(" from:%d to: %d = %d\n", from, to, value)
 				return key, nil
 			}
 		}
@@ -91,14 +90,14 @@ const (
 
 //TODO: Have to decide which of both enum implementation i like more
 var Directions = map[Direction][2]int {
-	UpLeft:  [2]int{-1,1},
-	Up: [2]int{1,0},
-	UpRight: [2]int{1,1},
-	Left: [2]int{-1,0},
-	Right: [2]int{1,0},
-	DownLeft: [2]int{-1,-1},
-	Down: [2]int{0,-1},
-	DownRight:[2]int{1,-1},
+	UpLeft: {-1,1},
+	Up: {1,0},
+	UpRight: {1,1},
+	Left: {-1,0},
+	Right: {1,0},
+	DownLeft: {-1,-1},
+	Down: {0,-1},
+	DownRight:{1,-1},
 	}
 
 func (d Direction) Coordinates() [2]int {
