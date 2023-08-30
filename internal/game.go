@@ -65,17 +65,17 @@ func(g *Game) Tick(){
 func(g *Game) display() {
 	world:= g.world
 	c:= g.creeps
-	cells := make([][]int, world.Dimensions[0]+1)
+	cells := make([][]int, world.Dimensions[1]+1)
     for i := range cells {
-        cells[i] = make([]int, world.Dimensions[1]+1)
+        cells[i] = make([]int, world.Dimensions[0]+1)
     }
 	for _, p := range returnPositionOfObstacles(world) {
-		cells[p.X][p.Y] = 1	
+		cells[p.Y][p.X] = 1	
 	}
 	for _, p := range returnPositionOfEnergySources(world) {
-		cells[p.X][p.Y] = 2	
+		cells[p.Y][p.X] = 2	
 	}
-	cells[c.GetPosition().X][c.GetPosition().Y] = 3
+	cells[c.GetPosition().Y][c.GetPosition().X] = 3
 	for _, row := range cells {
 		for _, cell := range row {
 		switch cell {
