@@ -1,6 +1,9 @@
 package internal
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestGetDirection(t *testing.T) {
       // Defining the columns of the table
@@ -23,6 +26,7 @@ func TestGetDirection(t *testing.T) {
       // The execution loop
         for _, tt := range tests {
             t.Run(tt.name, func(t *testing.T) {
+			fmt.Println(tt.want)
                 ans, _ := getDirection(tt.from, tt.to)
                 if ans != tt.want {
                     t.Errorf("got %d, want %d", ans, tt.want)

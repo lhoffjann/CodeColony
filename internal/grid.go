@@ -1,7 +1,8 @@
 package internal
 
-import (//"fmt"
-	"errors")
+import ( //"fmt"
+	"errors"
+)
 
 type Position struct {
 	X int
@@ -91,7 +92,7 @@ const (
 //TODO: Have to decide which of both enum implementation i like more
 var Directions = map[Direction][2]int {
 	UpLeft: {-1,1},
-	Up: {1,0},
+	Up: {0,1},
 	UpRight: {1,1},
 	Left: {-1,0},
 	Right: {1,0},
@@ -105,7 +106,7 @@ func (d Direction) Coordinates() [2]int {
 		case UpLeft:
 			return [2]int{-1,1} 
 		case Up: 
-			return [2]int{1,0} 
+			return [2]int{0,1} 
 		case UpRight:
 			return [2]int{1,1}
 		case Left:
