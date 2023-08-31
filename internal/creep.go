@@ -53,7 +53,6 @@ func (c *Creep) Move(direction Direction) {
 	p := c.position
 	d := direction.Coordinates()
 	newPosition:= Position{X: p.X + d[0], Y:p.Y + d[1]}
-	fmt.Println(newPosition)
 	if c.world.PositionExists(newPosition) && !c.world.PositionOccupied(newPosition) {
 		p.UpdatePosition(direction)
 	}
@@ -62,29 +61,22 @@ func (c *Creep) Move(direction Direction) {
 func(c *Creep) executeTaskInMemory(){
 	if len(c.memory) > 0 {
 		c.memory[0]()
-		fmt.Println(c.GetPosition())
 		c.memory = c.memory[1:]
 	}
 }
 
 
 func (c *Creep) MoveToStructure(position Position){
-	
 	path := findPath(*c.position, position, c.world)
-	fmt.Printf("this is my path %d", path)
 	var actionList []Task
 	for i := 0; i < len(path)-1; i++ {
 		direction, err := getDirection(path[i], path[i+1])
-		fmt.Printf("from %d to %d equals %d \n", path[i] ,path[i+1], direction.Coordinates())
 		if err != nil {
 			fmt.Printf("Could not append Direction")
 			return
 		}	
-		actionList = append(actionList,func(){
-		c.Move(direction)
-		fmt.Printf("this is the move i made %d", direction.Coordinates())
-		})
-		} 
+		actionList = append(actionList,func(){c.Move(direction)})
+	} 
 	c.memory = actionList	
 	}
 
