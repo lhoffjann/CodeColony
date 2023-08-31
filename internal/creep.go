@@ -74,26 +74,12 @@ func (c *Creep) MoveToStructure(position Position){
 	fmt.Printf("this is my path %d", path)
 	var actionList []Task
 	for i := 0; i < len(path)-1; i++ {
-		
-		if i == 0 {
-		
-			direction, err := getDirection(*c.position, path[i])
-			fmt.Printf("from %d to %d equals %d \n", c.position ,path[i], direction.Coordinates())
-			if err != nil {
-				fmt.Printf("Could not append Direction")
-				return
-			}
-		actionList = append(actionList,func() {
-			c.Move(direction)
-			fmt.Printf("this is the move i made %d", direction.Coordinates())
-			})
-		}else {
-			direction, err := getDirection(path[i], path[i+1])
-			fmt.Printf("from %d to %d equals %d \n", path[i] ,path[i+1], direction.Coordinates())
-			if err != nil {
-				fmt.Printf("Could not append Direction")
-				return
-		}
+		direction, err := getDirection(path[i], path[i+1])
+		fmt.Printf("from %d to %d equals %d \n", path[i] ,path[i+1], direction.Coordinates())
+		if err != nil {
+			fmt.Printf("Could not append Direction")
+			return
+		}	
 		actionList = append(actionList,func(){
 		c.Move(direction)
 		fmt.Printf("this is the move i made %d", direction.Coordinates())
@@ -101,5 +87,6 @@ func (c *Creep) MoveToStructure(position Position){
 		} 
 	c.memory = actionList	
 	}
-}
+
+
 

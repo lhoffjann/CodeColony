@@ -49,7 +49,7 @@ func NewGame(x int, y int) *Game{
 }
 func(g *Game) Tick(){
 	creep:= g.creeps
-	creep.MoveToStructure(Position{10,9})
+	creep.MoveToStructure(Position{9,9})
 	g.display()
 	for i := 0; i < 100; i++ {
 		fmt.Scanln()
@@ -111,7 +111,3 @@ func returnPositionOfEnergySources(w World) []Position{
 	}
 	return ListOfPostion
 }
-
-
-
-
