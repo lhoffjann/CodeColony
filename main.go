@@ -15,6 +15,6 @@ import (
 
 
 func main()  {
-	g := internal.NewGame(10,10)
+		g := internal.NewGame(20,20)
 	g.Tick()
 }	

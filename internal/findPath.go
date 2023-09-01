@@ -9,7 +9,7 @@ func heuristic (a Position, b Position) float64 {
 	return (math.Abs(float64(a.X))-math.Abs(float64(b.X))) + (math.Abs(float64(a.Y))-math.Abs(float64(b.Y)))
 }
 
-
+	// need to be refactored
 
 func findPath(start Position, goal Position, w World) []Position {
 	frontier := make(PriorityQueue,1)
