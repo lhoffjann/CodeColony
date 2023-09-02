@@ -12,9 +12,7 @@ import (
 // there should also be natural structures that the creep has to move around
 // also there should definitly be more than one creep
 
-
-
-func main()  {
-		g := internal.NewGame(20,20)
+func main() {
+	g := internal.NewGame(20, 20)
 	g.Tick()
-}	
+}
