@@ -15,10 +15,11 @@ type Game struct {
 	homeBase     HomeBase
 }
 
-func NewGame(x int, y int) *Game {
+func generateMap(x, y int) ([]Obstacle, []EnergySource) {
 	energySource := EnergySource{
 		Position: Position{X: 10, Y: 10},
 	}
+
 	obstacle := Obstacle{
 		Position: Position{X: 5, Y: 5},
 	}
@@ -31,9 +32,23 @@ func NewGame(x int, y int) *Game {
 	obstacle3 := Obstacle{
 		Position: Position{X: 1, Y: 1},
 	}
-
+	obstacle4 := Obstacle{
+		Position: Position{X: 2, Y: 1},
+	}
+	obstacle5 := Obstacle{
+		Position: Position{X: 3, Y: 1},
+	}
+	obstacle6 := Obstacle{
+		Position: Position{X: 4, Y: 1},
+	}
 	energySources := []EnergySource{energySource}
-	obstacles := []Obstacle{obstacle, obstacle1, obstacle2, obstacle3}
+	obstacles := []Obstacle{obstacle, obstacle1, obstacle2, obstacle3, obstacle4, obstacle5, obstacle6}
+	return obstacles, energySources
+
+}
+
+func NewGame(x, y int) *Game {
+	obstacles, energySources := generateMap(x, y)
 	world := World{
 		Dimensions:    [2]int{x, y},
 		EnergySources: energySources,
