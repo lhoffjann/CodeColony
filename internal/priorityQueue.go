@@ -1,21 +1,11 @@
 package internal
 
-import (
-	"container/heap"
-)
-// shamelessly copied from the golang docs
-type Item struct {
-	Value  Position   
-	Priority float64   
-	Index int 
-}
-
 type PriorityQueue []*Item
 
 func (pq PriorityQueue) Len() int { return len(pq) }
 
 func (pq PriorityQueue) Less(i, j int) bool {
-	return pq[i].Priority > pq[j].Priority
+	return pq[i].Priority < pq[j].Priority
 }
 
 func (pq PriorityQueue) Swap(i, j int) {
@@ -35,14 +25,7 @@ func (pq *PriorityQueue) Pop() any {
 	old := *pq
 	n := len(old)
 	item := old[n-1]
-	old[n-1] = nil  
-	item.Index = -1 
-         *pq = old[0 : n-1]
+	item.Index = -1
+	*pq = old[0 : n-1]
 	return item
-}
-
-func (pq *PriorityQueue) update(item *Item, value Position, priority float64) {
-	item.Value = value
-	item.Priority = priority
-	heap.Fix(pq, item.Index)
 }
