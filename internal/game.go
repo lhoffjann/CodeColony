@@ -2,8 +2,10 @@ package internal
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"os/exec"
+	"time"
 	"unicode/utf8"
 )
 
@@ -15,34 +17,72 @@ type Game struct {
 	homeBase     HomeBase
 }
 
-func generateMap(x, y int) ([]Obstacle, []EnergySource) {
-	energySource := EnergySource{
-		Position: Position{X: 10, Y: 10},
+func generateRandomPositions(x, y, n int) []Position {
+	rand.Seed(time.Now().UnixNano())
+	positions := make([]Position, n)
+
+	for i := 0; i < n; i++ {
+		var newPos Position
+
+		for {
+			newPos = Position{X: rand.Intn(x), Y: rand.Intn(y)}
+			valid := true
+			for j := 0; j < i; j++ {
+				dx := newPos.X - positions[j].X
+				dy := newPos.Y - positions[j].Y
+				if dx*dx+dy*dy < (x/2)*(y/2) {
+					valid = false
+					break
+				}
+			}
+
+			if valid {
+				break
+			}
+		}
+
+		positions[i] = newPos
 	}
 
-	obstacle := Obstacle{
-		Position: Position{X: 5, Y: 5},
+	return positions
+}
+
+func generateUniquePositions(n, maxX, maxY int, existingPositions []Position) []Position {
+	rand.Seed(time.Now().UnixNano())
+	positions := make([]Position, 0, n)
+
+	usedPositions := make(map[Position]bool)
+	for _, v := range existingPositions {
+		usedPositions[v] = true
 	}
-	obstacle1 := Obstacle{
-		Position: Position{X: 0, Y: 10},
+
+	for len(positions) < n {
+		x := rand.Intn(maxX) // Replace maxX with the maximum X coordinate you want
+		y := rand.Intn(maxY) // Replace maxY with the maximum Y coordinate you want
+		newPosition := Position{x, y}
+
+		// Check if the generated position is unique
+		if !usedPositions[newPosition] {
+			positions = append(positions, newPosition)
+			usedPositions[newPosition] = true
+		}
 	}
-	obstacle2 := Obstacle{
-		Position: Position{X: 0, Y: 1},
+
+	return positions
+}
+
+func generateMap(x, y int) (obstacles []Obstacle, energySources []EnergySource) {
+	rand.Seed(time.Now().UnixNano())
+	countObstacles := rand.Intn(x*y/2-x*y/5) + x*y/5
+	structures := generateRandomPositions(x, y, 2)
+	homebase := EnergySource{Position: structures[0]}
+	energySource := EnergySource{Position: structures[1]}
+	positions := generateUniquePositions(countObstacles, x, y, structures)
+	for _, v := range positions {
+		obstacles = append(obstacles, Obstacle{Position: v})
 	}
-	obstacle3 := Obstacle{
-		Position: Position{X: 1, Y: 1},
-	}
-	obstacle4 := Obstacle{
-		Position: Position{X: 2, Y: 1},
-	}
-	obstacle5 := Obstacle{
-		Position: Position{X: 3, Y: 1},
-	}
-	obstacle6 := Obstacle{
-		Position: Position{X: 4, Y: 1},
-	}
-	energySources := []EnergySource{energySource}
-	obstacles := []Obstacle{obstacle, obstacle1, obstacle2, obstacle3, obstacle4, obstacle5, obstacle6}
+
+	energySources = []EnergySource{homebase, energySource}
 	return obstacles, energySources
 
 }
