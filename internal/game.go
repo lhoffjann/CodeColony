@@ -73,7 +73,8 @@ func generateUniquePositions(n, maxX, maxY int, existingPositions []Position) []
 
 func generateMap(x, y int) (world World) {
 	rand.Seed(time.Now().UnixNano())
-	countObstacles := rand.Intn(x*y/2-x*y/5) + x*y/5
+	countObstacles := rand.Intn(x*y/2-x*y/3) + x*y/3
+	fmt.Printf("Count of Obstacles: %d\n", countObstacles)
 	structures := generateRandomPositions(x, y, 2)
 	homebase := HomeBase{Position: structures[0]}
 	energySource := EnergySource{Position: structures[1]}
@@ -103,10 +104,10 @@ func NewGame(x, y int) *Game {
 }
 func (g *Game) Tick() {
 	creep := g.creeps
-	creep.MoveToStructure(Position{9, 9})
+	creep.MoveToStructure(g.world.ReturnFreeNeighbors(g.world.EnergySources[0].Position)[0])
 	g.display()
 	for i := 0; i < 100; i++ {
-		fmt.Scanln()
+		time.Sleep(1 * time.Second)
 		cmd := exec.Command("clear") //Linux example, its tested
 		cmd.Stdout = os.Stdout
 		cmd.Run()

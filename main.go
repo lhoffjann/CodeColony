@@ -13,6 +13,6 @@ import (
 // also there should definitly be more than one creep
 
 func main() {
-	g := internal.NewGame(10, 10)
+	g := internal.NewGame(40, 30)
 	g.Tick()
 }
