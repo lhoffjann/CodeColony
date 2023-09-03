@@ -57,8 +57,8 @@ func generateUniquePositions(n, maxX, maxY int, existingPositions []Position) []
 	}
 
 	for len(positions) < n {
-		x := rand.Intn(maxX) // Replace maxX with the maximum X coordinate you want
-		y := rand.Intn(maxY) // Replace maxY with the maximum Y coordinate you want
+		x := rand.Intn(maxX)
+		y := rand.Intn(maxY)
 		newPosition := Position{x, y}
 
 		// Check if the generated position is unique
@@ -71,34 +71,33 @@ func generateUniquePositions(n, maxX, maxY int, existingPositions []Position) []
 	return positions
 }
 
-func generateMap(x, y int) (obstacles []Obstacle, energySources []EnergySource) {
+func generateMap(x, y int) (world World) {
 	rand.Seed(time.Now().UnixNano())
 	countObstacles := rand.Intn(x*y/2-x*y/5) + x*y/5
 	structures := generateRandomPositions(x, y, 2)
-	homebase := EnergySource{Position: structures[0]}
+	homebase := HomeBase{Position: structures[0]}
 	energySource := EnergySource{Position: structures[1]}
 	positions := generateUniquePositions(countObstacles, x, y, structures)
+	var obstacles []Obstacle
 	for _, v := range positions {
 		obstacles = append(obstacles, Obstacle{Position: v})
 	}
-
-	energySources = []EnergySource{homebase, energySource}
-	return obstacles, energySources
-
-}
-
-func NewGame(x, y int) *Game {
-	obstacles, energySources := generateMap(x, y)
-	world := World{
+	energySources := []EnergySource{energySource}
+	return World{
 		Dimensions:    [2]int{x, y},
 		EnergySources: energySources,
 		Obstacles:     obstacles,
+		HomeBase:      homebase,
 	}
-	c := NewCreep(&Position{X: 0, Y: 0}, world)
+}
+
+func NewGame(x, y int) *Game {
+	world := generateMap(x, y)
+	creepposition := world.ReturnFreeNeighbors(world.HomeBase.Position)[0]
+	c := NewCreep(&creepposition, world)
 	g := &Game{
-		world:    world,
-		obstacle: obstacles,
-		creeps:   c,
+		world:  world,
+		creeps: c,
 	}
 	return g
 }
@@ -124,6 +123,7 @@ func (g *Game) display() {
 	for i := range cells {
 		cells[i] = make([]int, world.Dimensions[0]+1)
 	}
+	cells[g.homeBase.Position.Y][g.homeBase.Position.X] = 4
 	for _, p := range returnPositionOfObstacles(world) {
 		cells[p.Y][p.X] = 1
 	}
@@ -142,6 +142,8 @@ func (g *Game) display() {
 				fmt.Print(" " + getStringForEmoji("\U0001f536"))
 			case 3:
 				fmt.Print(" " + getStringForEmoji("\U0001f47e"))
+			case 4:
+				fmt.Print(" " + getStringForEmoji("\U0001F3E0"))
 			}
 		}
 		fmt.Println()
