@@ -48,7 +48,6 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	</body>
 	</html>
 	`
-
 	t, _ := template.New("index").Parse(tmpl)
 	t.Execute(w, nil)
 }
