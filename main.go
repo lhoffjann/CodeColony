@@ -2,10 +2,9 @@ package main
 
 import (
 	"CodeColony/internal"
-	"html/template"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 // we got a map that is build as a coordinate system.
@@ -17,8 +16,8 @@ import (
 // also there should definitly be more than one creep
 
 func main() {
+	go ech()
 	go runGame()
-	go runHttpListener()
 	select {}
 }
 func runGame() {
@@ -26,28 +25,22 @@ func runGame() {
 	g.Tick()
 }
 
-func runHttpListener() {
-	r := mux.NewRouter()
-	r.HandleFunc("/", IndexHandler)
+func ech() {
+	// Echo instance
+	e := echo.New()
 
-	http.Handle("/", r)
+	// Middleware
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
+	// Routes
+	e.GET("/", hello)
+
+	// Start server
+	e.Logger.Fatal(e.Start(":1323"))
 }
 
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := `
-	<!DOCTYPE html>
-	<html>
-	<head>
-		<title>htmx Example</title>
-		<script src="https://cdn.jsdelivr.net/npm/htmx.org@1.7.1/dist/htmx.min.js"></script>
-	</head>
-	<body>
-		<h1>htmx Example</h1>
-		<button hx-get="/data" hx-trigger="click" hx-target="#result">Load Data</button>
-		<div id="result"></div>
-	</body>
-	</html>
-	`
-	t, _ := template.New("index").Parse(tmpl)
-	t.Execute(w, nil)
+// Handler
+func hello(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!")
 }
